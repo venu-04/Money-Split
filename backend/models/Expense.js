@@ -4,6 +4,7 @@ const expenseSchema = new mongoose.Schema({
     group:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Group',
+        default: null // Allowing expenses to be created without a group
         // required:true
     },
     participants:[{

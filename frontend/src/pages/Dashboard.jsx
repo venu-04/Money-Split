@@ -8,6 +8,7 @@ export default function Dashboard() {
   const [groups, setGroups] = useState([]);
   const [friends, setFriends] = useState([]);
   const [emailToAdd, setEmailToAdd] = useState("");
+  const [showAddExpense, setShowAddExpense] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -82,12 +83,23 @@ export default function Dashboard() {
         </ul>
       </div>
 
-     <button>
-      <Link to={"/add-expense"} className="bg-green-600 text-white px-4 py-2 rounded inline-block mb-6">
-              Add Expense
-      </Link>
-          
-     </button>
+        {/* 🔘 Toggle Add Expense Form */}
+        <div className="mb-6">
+          <button
+            onClick={() => setShowAddExpense(prev => !prev)}
+            className="bg-green-600 text-white px-4 py-2 rounded mb-4"
+          >
+            {showAddExpense ? "Hide Expense Form" : "➕ Add Expense"}
+          </button>
+
+          {showAddExpense && (
+            <div className="bg-white p-4 border rounded shadow-md">
+              <AddExpense />
+            </div>
+          )}
+        </div>
+
+
 
       {/* 👯 Add Friend by Email */}
       <div className="mb-8">

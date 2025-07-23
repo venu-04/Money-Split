@@ -15,7 +15,7 @@ router.post("/add-expense",auth,async(req,res) => {
 
     try {
         // const group = await Group.findById(groupId);
-        // if(!group) return res.status(404).json({message:'Group not found'});
+        //  if(!group) return res.status(404).json({message:'Group not found'});
 
         const expense = await Expense.create({
             group,

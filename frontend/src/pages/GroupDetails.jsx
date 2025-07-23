@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AddExpense from "./AddExpense";
 
 export default function GroupDetails() {
   const { id } = useParams(); // group ID from URL
@@ -8,6 +9,7 @@ export default function GroupDetails() {
   
   const [group, setGroup] = useState(null);
   const token = localStorage.getItem("token");
+  const [showAddExpense, setShowAddExpense] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,6 +52,23 @@ export default function GroupDetails() {
           {/* <Link to={"/add-expense"}>
           <button className="bg-green-500 text-white px-3 py-1 rounded">Add Expense</button>
            </Link> */}
+
+      
+
+      <div className="mb-6">
+          <button
+            onClick={() => setShowAddExpense(prev => !prev)}
+            className="bg-green-600 text-white px-4 py-2 rounded mb-4"
+          >
+            {showAddExpense ? "Hide Expense Form" : "➕ Add Expense"}
+          </button>
+
+          {showAddExpense && (
+            <div className="bg-white p-4 border rounded shadow-md">
+              <AddExpense group={id} groupmembers={group.members}/>
+            </div>
+          )}
+        </div>
 
 
       {/* Future Feature: Show Expenses Here */}
