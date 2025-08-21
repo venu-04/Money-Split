@@ -33,5 +33,27 @@ router.post("/add-expense",auth,async(req,res) => {
         
     }
 });
+// GET all expenses of a group
+router.get("/:groupId/expenses", auth, async (req, res) => {
+  const { groupId } = req.params;
+
+  try {
+    // Verify group exists
+    const group = await Group.findById(groupId);
+    if (!group) return res.status(404).json({ message: "Group not found" });
+
+    // Fetch expenses and populate user info
+    const expenses = await Expense.find({ group: groupId })
+      .populate("paidBy", "name email")
+      .populate("participants", "name email")
+      .sort({ date: -1 }); // newest first
+
+    res.json(expenses);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch expenses" });
+  }
+});
+
 
 export default router;

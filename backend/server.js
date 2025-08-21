@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.js';
 import groupRoutes from './routes/group.js';
 import userRoutes from './routes/users.js';
 import expenseRoutes from './routes/expenses.js';
+import balanceRoutes from './routes/balance.js';
 
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use('/api/auth',authRoutes);
 app.use('/api/group',groupRoutes);
 app.use('/api/users',userRoutes);
 app.use('/api/expense',expenseRoutes);
+app.use('/api',balanceRoutes);
 
 
 app.get('/',(req,res) => {

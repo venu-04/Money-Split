@@ -14,10 +14,10 @@ router.post('/add-friend',auth,async(req,res) => {
     console.log("User ID:", userId);
 
     try {
-        const friend = await User.findOne({email});
+        const friend = await User.findOne({email});               //User is a model containing all the users in the database
         if(friend){
             if(friend._id.toString() == userId){
-                return res.status(400).json({meassage:"You cant add yourself"})
+                return res.status(400).json({message:"You can't add yourself"})
             }
             const user=await User.findById(userId);
 

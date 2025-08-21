@@ -1,0 +1,24 @@
+1.
+the group will be there in all member accounts
+for example if group contains user1,user2 
+both the users account will contains that group 
+that group will shows in both user accounts                         ------- it is showing
+
+2.
+friends list also 
+if user1 contains user2 as friend then automatically user2 will contains user1 as a friend
+
+3.
+logout button
+
+4.If your app is showing or calculating amounts involving money — always round to two decimal places before storing or displaying.
+
+5.export function splitEqually(amount, members) {
+  if (!amount || members.length === 0) return [];
+  const share = (amount / members.length).toFixed(2);
+  return members.map(m => ({
+    memberId: m.id,
+    name: m.name,
+    share: parseFloat(share)
+  }));
+}

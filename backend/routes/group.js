@@ -41,13 +41,13 @@ router.get('/:id', auth, async (req, res) => {
   try {
     const group = await Group.findById(req.params.id).populate('members', 'name email');
     const rawGroup = await Group.findById(req.params.id);
-    console.log('Raw group members:', rawGroup.members); // Should include ObjectIds
+    // console.log('Raw group members:', rawGroup.members); // Should include ObjectIds
 
 
     if (!group) {
       return res.status(404).json({ message: 'Group not found.' });
     }
-    console.log("Logged-in user ID:", req.user._id);
+   // console.log("Logged-in user ID:", req.user._id);
     // console.log("Group members:", group.members);
 
 
