@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import AddExpense from "./AddExpense";
 import Balance from "./Balance";
+import { MdDarkMode } from 'react-icons/md';
+import { MdLightMode } from 'react-icons/md';
 
 export default function Dashboard() {
   const [user, setUser] = useState({});
@@ -87,7 +89,7 @@ export default function Dashboard() {
 
   const buttonClass = darkMode
     ? "bg-gray-700 hover:bg-gray-600 text-gray-100 font-medium px-4 py-2 rounded"
-    : "bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded";
+    : "bg-gray-400 hover:bg-gray-400 text-white font-medium px-4 py-2 rounded";
 
   return (
     <div className={pageClass}>
@@ -103,7 +105,7 @@ export default function Dashboard() {
               onClick={() => setDarkMode(prev => !prev)}
               className={buttonClass}
             >
-              {darkMode ? "Light Mode" : "Dark Mode"}
+              {darkMode ? <MdLightMode /> : <MdDarkMode />}
             </button>
             <button
               onClick={handleLogout}
@@ -121,26 +123,43 @@ export default function Dashboard() {
         </div>
 
         {/* Grid: Groups + Add Expense */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className={cardClass}>
-            <h3 className="text-xl font-semibold mb-3">Your Groups</h3>
-            <ul className="space-y-2">
-              {groups.length > 0 ? (
-                groups.map((group) => (
-                  <li key={group._id} className={groupItemClass}>
-                    <Link
-                      to={`/group/${group._id}`}
-                      className={darkMode ? "text-blue-300 hover:underline" : "text-blue-600 hover:underline"}
-                    >
-                      {group.name}
-                    </Link>
-                  </li>
-                ))
-              ) : (
-                <p className={darkMode ? "text-gray-400" : "text-gray-500"}>No groups yet.</p>
-              )}
-            </ul>
-          </div>
+<div className="grid md:grid-cols-2 gap-6">
+  {/* Groups */}
+  <div className={cardClass}>
+    <div className="flex justify-between items-center mb-3">
+      <h3 className="text-xl font-semibold">Your Groups</h3>
+      <Link
+        to="/create-group"
+        className="px-3 py-1 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition"
+      >
+        Create Group
+      </Link>
+    </div>
+    <ul className="space-y-2">
+      {groups.length > 0 ? (
+        groups.map((group) => (
+          <li key={group._id} className={groupItemClass}>
+            <Link
+              to={`/group/${group._id}`}
+              className={
+                darkMode
+                  ? "text-blue-300 hover:underline"
+                  : "text-blue-600 hover:underline"
+              }
+            >
+              {group.name}
+            </Link>
+          </li>
+        ))
+      ) : (
+        <p className={darkMode ? "text-gray-400" : "text-gray-500"}>
+          No groups yet.
+        </p>
+      )}
+    </ul>
+  </div>
+
+
 
           <div className={cardClass}>
             <h3 className="text-xl font-semibold mb-3">Add Expense</h3>

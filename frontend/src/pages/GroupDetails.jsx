@@ -2,6 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AddExpense from "./AddExpense";
+import { MdDarkMode } from 'react-icons/md';
+import { MdLightMode } from 'react-icons/md';
 
 export default function GroupDetails() {
   const { id } = useParams();
@@ -74,14 +76,14 @@ export default function GroupDetails() {
               ? "bg-gray-700 text-gray-100 px-4 py-2 rounded hover:bg-gray-600"
               : "bg-gray-200 text-gray-900 px-4 py-2 rounded hover:bg-gray-300"}
           >
-            {darkMode ? "Light Mode" : "Dark Mode"}
+            {darkMode ? <MdLightMode /> : <MdDarkMode />}
           </button>
         </div>
 
         {/* Group Header */}
         <div className={cardClass}>
           <h2 className="text-3xl font-bold mb-2">{group.name}</h2>
-          <p className={darkMode ? "text-gray-400" : "text-gray-500"}>Group ID: {group._id}</p>
+          <p className={darkMode ? "text-gray-400" : "text-gray-500"}>Created By: {group.createdBy?.name}</p>
         </div>
 
         {/* Members Section */}

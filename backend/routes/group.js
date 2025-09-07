@@ -39,7 +39,9 @@ router.get('/my-groups',auth,async(req,res) => {
 });
 router.get('/:id', auth, async (req, res) => {
   try {
-    const group = await Group.findById(req.params.id).populate('members', 'name email');
+    const group = await Group.findById(req.params.id)
+    .populate('createdBy', 'name email')
+    .populate('members', 'name email');
     const rawGroup = await Group.findById(req.params.id);
     // console.log('Raw group members:', rawGroup.members); // Should include ObjectIds
 

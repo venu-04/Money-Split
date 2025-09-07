@@ -40,7 +40,7 @@ router.post('/register',async (req,res) => {
 
         // console.log(newuser);
     
-         const token = jwt.sign({id:newuser._id},process.env.JWT_SECRET,
+         const token = jwt.sign({id:newuser._id,name:newuser.name,email:newuser.email},process.env.JWT_SECRET,
         //    { expiresIn:"1h"  } // Token will expire in 1 hour
          );
          
@@ -69,7 +69,7 @@ router.post('/login',async( req,res) => {
         if(!isMatch){
             return res.status(400).json({message:"Invalid credentials"});
         }
-        const token = jwt.sign({id:user._id},process.env.JWT_SECRET,);
+        const token = jwt.sign({id:user._id,name:user.name,email:user.email},process.env.JWT_SECRET,);
         res.json({token,user:{
             name:user.name,
             email:user.email

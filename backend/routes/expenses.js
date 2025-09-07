@@ -55,5 +55,33 @@ router.get("/:groupId/expenses", auth, async (req, res) => {
   }
 });
 
+// POST /settle
+router.post("/settle", auth, async (req, res) => {
+  try {
+    const { to, amount } = req.body;
+    const from = req.user._id;
+
+    if (!to || !amount) {
+      return res.status(400).json({ msg: "Missing fields" });
+    }
+
+    // ❌ Instead of creating expense
+    // ✅ Subtract settlement directly in net balance
+    const settlement = await Expense.create({
+      participants: [from, to],
+      amount: -Math.abs(amount),   // 👈 NEGATIVE reduces balance
+      description: "Settlement payment",
+      paidBy: from,
+      isSettlement: true
+    });
+
+    res.status(201).json({ msg: "Settlement successful", settlement });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+
 
 export default router;

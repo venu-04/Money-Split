@@ -25,6 +25,10 @@ const expenseSchema = new mongoose.Schema({
         ref:'User',
         required:true
     },
+     isSettlement: {
+                type: Boolean,
+                default: false   // 👈 NEW FIELD
+     },
     date:{
         type:Date,
         default: Date.now
