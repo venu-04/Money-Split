@@ -55,6 +55,74 @@ router.get("/:groupId/expenses", auth, async (req, res) => {
   }
 });
 
+//Get Expenses of a user (both group and personal)
+router.get("/:userId",auth,async(req,res) => {
+  try {
+    
+    const {userId} = req.params;
+
+  const personalExpenses = await Expense.find({
+    participants: userId,
+    group: null
+  })
+  .populate("paidBy","name email")
+  .populate("participants","name email")
+  .sort({date:-1});
+
+  const groupExpenses = await Expense.find({
+    participants: userId,
+    group: { $ne:null}
+
+  })
+  .populate("paidBy","name email")
+  .populate("participants","name email")
+  .populate("group","name")
+  .sort({date:-1});
+
+  const groupExpensesMap = {};
+  groupExpenses.forEach((exp) => {
+    const gid = exp.group._id.toString();
+    if(!groupExpensesMap[gid]){
+      groupExpensesMap[gid] = {
+        groupId : gid,
+        groupName: exp.group.name,
+        expenses: []
+      }
+    }
+    groupExpensesMap[gid].expenses.push({
+      _id:exp._id,
+      description: exp.description,
+      amount: exp.amount,
+      paidBy: exp.paidBy.name,
+      participants: exp.participants.map(p => p.name),
+      date: exp.date
+    });
+  });
+
+  res.json({
+    userId,
+    personalExpenses:personalExpenses.map((exp) => ({
+      _id: exp._id,
+      description: exp.description,
+      amount: exp.amount,
+      paidBy: exp.paidBy.name,
+      participants: exp.participants.map(p => p.name),
+      date:exp.date
+    })),
+    groupExpenses : Object.values(groupExpensesMap)
+  });
+
+  } catch (error) {
+    
+    console.error("Error while fetcing by userId",error);
+    res.status(500).json({message:"Failed to fetch expenses for user. Please try again later."});
+  }
+  
+
+
+
+})
+
 // POST /settle
 router.post("/settle", auth, async (req, res) => {
   try {

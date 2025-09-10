@@ -4,6 +4,7 @@ import axios from "axios";
 import AddExpense from "./AddExpense";
 import { MdDarkMode } from 'react-icons/md';
 import { MdLightMode } from 'react-icons/md';
+import { jwtDecode } from "jwt-decode";
 
 export default function GroupDetails() {
   const { id } = useParams();
@@ -13,6 +14,17 @@ export default function GroupDetails() {
   const [showAddExpense, setShowAddExpense] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
+  let username = "";  //logged in user's name
+  if(token){
+    try {
+      const decoded = jwtDecode(token);
+      username = decoded.name;
+    } catch (error) {
+      console.log("failed to decode token",error);
+      
+    }
+  }
 
   useEffect(() => {
     if (!token) {
@@ -124,7 +136,7 @@ export default function GroupDetails() {
                   <div>
                     <p className="font-semibold">{exp.description}</p>
                     <p className={darkMode ? "text-gray-400 text-sm" : "text-gray-500 text-sm"}>
-                      Paid by: {exp.paidBy.name} | Split among: {exp.participants.map(u => u.name).join(", ")}
+                      Paid by: {exp.paidBy.name === username ? "You" : exp.paidBy.name} | Split among: {exp.participants.map(u => u.name === username ? "You" : u.name).join(", ")}  | Date: {exp.date.split("T")[0]}
                     </p>
                   </div>
                   <p className={expenseAmountClass}>₹{exp.amount}</p>
