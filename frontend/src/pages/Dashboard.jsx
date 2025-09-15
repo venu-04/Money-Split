@@ -3,7 +3,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import AddExpense from "./AddExpense";
 import Balance from "./Balance";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { MdDarkMode, MdLightMode , MdDelete } from "react-icons/md";
+
+
 
 export default function Dashboard() {
   const [user, setUser] = useState({});
@@ -86,6 +88,30 @@ export default function Dashboard() {
     }
   };
 
+  const handledeleteGroup = async(id) => {
+    if(!window.confirm("Are you sure you want to delete this group? This action cannot be undone.")){
+      return;
+    }
+
+    try {
+
+      await axios.delete(`http://localhost:5000/api/group/${id}`,{
+        headers:{Authorization:token}
+      });
+      alert("Group deleted successfully");
+
+      setGroups((prevGroups) => prevGroups.filter((g) => g._id !== id));
+
+      // navigate("/dashboard");
+
+      
+
+    } catch (error) {
+      console.error(error,"Failed to delete group");
+    }
+
+  }
+
   // Tailwind classes
   const pageClass = darkMode
     ? "min-h-screen bg-gray-900 text-gray-100 p-6"
@@ -146,19 +172,33 @@ export default function Dashboard() {
             <ul className="space-y-2">
               {groups.length > 0 ? (
                 groups.map(group => (
-                  <li key={group._id} className="p-2 border rounded hover:bg-blue-50">
+                  <li
+                    key={group._id}
+                    className="p-2 border rounded hover:bg-blue-50 flex justify-between items-center"
+                  >
+                    {/* Group Name */}
                     <Link
                       to={`/group/${group._id}`}
                       className="text-blue-600 hover:underline font-medium"
                     >
                       {group.name}
                     </Link>
+
+                    {/* Delete Button */}
+                    <button
+                      onClick={() => handledeleteGroup(group._id)}
+                      className="p-1 text-red-500 hover:text-red-700"
+                      title="Delete group"
+                    >
+                      <MdDelete size={20} />
+                    </button>
                   </li>
                 ))
               ) : (
                 <p className={darkMode ? "text-gray-400" : "text-gray-500"}>No groups yet.</p>
               )}
             </ul>
+
           </div>
 
           {/* Friends */}
