@@ -67,7 +67,7 @@ import auth from "../middleware/auth.js";
 const router = express.Router();
 
 router.get("/balance", auth, async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.user._id.toString();
   const groupId = req.query.group || null;
 
   try {
@@ -77,66 +77,69 @@ router.get("/balance", auth, async (req, res) => {
 
     const balance = {};
 
+    // Step 1: Build raw balances
     for (const exp of expenses) {
       const { participants, amount, paidBy, isSettlement } = exp;
 
       if (isSettlement) {
-        // For settlements, ensure we record "from -> to"
         const from = paidBy;
-        const to = participants.find((p) => p._id.toString() !== from._id.toString());
-
+        const to = participants.find(p => p._id.toString() !== from._id.toString());
         if (!to) continue;
 
         const key = `${from._id} -> ${to._id}`;
         balance[key] = (balance[key] || 0) + amount;
       } else {
-        // Normal expense splitting
         const share = amount / participants.length;
-
         for (const participant of participants) {
           if (participant._id.toString() === paidBy._id.toString()) continue;
 
-          if (
-            participant._id.toString() === userId.toString() ||
-            paidBy._id.toString() === userId.toString()
-          ) {
-            const key = `${participant._id} -> ${paidBy._id}`;
-            balance[key] = (balance[key] || 0) + share;
-          }
+          const key = `${participant._id} -> ${paidBy._id}`;
+          balance[key] = (balance[key] || 0) + share;
         }
       }
     }
 
-    // Calculate net balances
-    const netBalance = {};
+    // Step 2: Net balances
+    const netBalances = {};
     for (const [key, amount] of Object.entries(balance)) {
       const [from, to] = key.split(" -> ");
       const reverseKey = `${to} -> ${from}`;
       const netAmount = amount - (balance[reverseKey] || 0);
 
       if (netAmount > 0) {
-        netBalance[`${from} -> ${to}`] = parseFloat(netAmount.toFixed(2));
+        netBalances[`${from} -> ${to}`] = parseFloat(netAmount.toFixed(2));
       }
     }
 
-    // 👇 Add name mapping for frontend UI
-    const withNames = {};
-    for (const [key, amount] of Object.entries(netBalance)) {
-      const [from, to] = key.split(" -> ");
-      const fromUser = expenses.find((e) => e.paidBy._id.toString() === from)?.paidBy ||
-                       expenses.flatMap((e) => e.participants).find((p) => p._id.toString() === from);
-      const toUser = expenses.find((e) => e.paidBy._id.toString() === to)?.paidBy ||
-                     expenses.flatMap((e) => e.participants).find((p) => p._id.toString() === to);
+    // Step 3: Build user map for names
+    const userMap = new Map();
+    expenses.forEach(exp => {
+      userMap.set(exp.paidBy._id.toString(), exp.paidBy);
+      exp.participants.forEach(p => userMap.set(p._id.toString(), p));
+    });
 
-      withNames[`${fromUser?.name || from} -> ${toUser?.name || to}`] = amount;
-    }
+    // Step 4: Keep only balances where logged-in user is involved
+    const balances = Object.entries(netBalances)
+      .map(([key, amount]) => {
+        const [from, to] = key.split(" -> ");
+        return {
+          fromId: from,
+          fromName: userMap.get(from)?.name || from,
+          toId: to,
+          toName: userMap.get(to)?.name || to,
+          amount
+        };
+      })
+      .filter(b => b.fromId === userId || b.toId === userId);
 
-    res.json({ netBalance, withNames });
+    res.json({ balances });
+
   } catch (error) {
     console.error("Error fetching balance:", error);
     res.status(500).json({ message: "Failed to fetch balance. Please try again later." });
   }
 });
+
 
 // export default router;
 

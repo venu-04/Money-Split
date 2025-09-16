@@ -2,6 +2,7 @@ import express from 'express';
 import auth from '../middleware/auth.js';
 import Group from '../models/Group.js';
 import User from '../models/User.js';
+import Expense from '../models/Expense.js';
 
 
 const router = express.Router();
@@ -64,6 +65,33 @@ router.get('/:id', auth, async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch group. Please try again later.' });
   }
 });
+
+router.delete('/:id',auth,async(req,res) => {
+  const groupId = req.params.id;
+  const userId = req.user._id;
+
+  try {
+    
+    const group = await Group.findById(groupId);
+    if(!group) return res.status(404).json({message:'Group not found'});
+
+    if(group.createdBy.toString() !== userId.toString()){
+      res.status(403).json({message:'Only the group creator can delete the group'});
+    }
+    
+
+    await Expense.deleteMany({group:groupId});
+
+    await Group.findByIdAndDelete(groupId);
+
+    res.json({message:'Group deleted successfully'});
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message:'Failed to Delete group.Please try again later.'});
+    
+  }
+})
 
 
 export default router;
