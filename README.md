@@ -26,8 +26,8 @@ A full-stack web application to manage personal and group expenses, split bills,
 
 ## Live Demo
 
-- Frontend: [Your Vercel URL](https://your-frontend-url.vercel.app)
-- Backend API: [Your Render URL](https://your-backend-url.onrender.com)
+-Here is the Live Link: [Live]([https://money-split-five.vercel.app])
+
 
 ---
 
