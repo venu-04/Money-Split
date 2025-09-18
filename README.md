@@ -39,7 +39,7 @@ A full-stack web application to manage personal and group expenses, split bills,
    cd money-split-app
 2. **Install backend dependencies**
 
-       cd backend
+        cd backend
         npm install
 
 4. **Install frontend dependencies:**
@@ -51,20 +51,23 @@ A full-stack web application to manage personal and group expenses, split bills,
       Create a .env file in backend:
    
          PORT=5000
-        MONGO_URI=your_mongodb_uri
-        JWT_SECRET=your_jwt_secret
-
+         MONGO_URI=your_mongodb_uri
+         JWT_SECRET=your_jwt_secret
 7. **Run the project locally**:
+
+   **Backend:**
+    ```bash
+            cd backend
+            npm start
+
+**Frontend:**
+
+         ```bash
+            cd frontend
+            npm run dev
+         
    
-           ** Backend:**
-                  ```bash
-                   cd backend
-                   npm start
    
-           **Frontend:**
-               ```bash
-                   cd frontend
-                    npm start
 
 
 
