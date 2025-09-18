@@ -47,14 +47,14 @@ A full-stack web application to manage personal and group expenses, split bills,
         cd ../frontend
         npm install
 
-6. Set environment variables
+6. **Set environment variables**
       Create a .env file in backend:
    
          PORT=5000
         MONGO_URI=your_mongodb_uri
         JWT_SECRET=your_jwt_secret
 
-7. Run the project locally
+7. **Run the project locally**
             Backend:
                    cd backend
                    npm start
