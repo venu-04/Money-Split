@@ -54,7 +54,8 @@ A full-stack web application to manage personal and group expenses, split bills,
         MONGO_URI=your_mongodb_uri
         JWT_SECRET=your_jwt_secret
 
-7. **Run the project locally**
+7. **Run the project locally**:
+   
            ** Backend:**
                   ```bash
                    cd backend
