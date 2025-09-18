@@ -36,7 +36,7 @@ A full-stack web application to manage personal and group expenses, split bills,
 1. **Clone the repository**
    ```bash
    git clone https://github.com/venu-04/Money-Split
-   cd money-split-app
+   cd money-split
 2. **Install backend dependencies**
 
         cd backend
