@@ -55,10 +55,13 @@ A full-stack web application to manage personal and group expenses, split bills,
         JWT_SECRET=your_jwt_secret
 
 7. **Run the project locally**
-            Backend:
+           ** Backend:**
+                  ```bash
                    cd backend
                    npm start
-           Frontend:
+   
+           **Frontend:**
+               ```bash
                    cd frontend
                     npm start
 
