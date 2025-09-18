@@ -26,7 +26,7 @@ A full-stack web application to manage personal and group expenses, split bills,
 
 ## Live Demo
 
--Here is the Live Link: [Live]([https://money-split-five.vercel.app])
+-Here is the Live Link: [Live](https://money-split-five.vercel.app)
 
 
 ---
@@ -56,11 +56,11 @@ A full-stack web application to manage personal and group expenses, split bills,
 7. **Run the project locally**:
 
    **Backend:**
-    ```bash
-            cd backend
-            npm start
+   
+               cd backend
+               npm start
 
-**Frontend:**
+   **Frontend:**
 
          ```bash
             cd frontend
