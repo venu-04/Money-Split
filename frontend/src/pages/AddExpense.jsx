@@ -16,7 +16,8 @@ const AddExpense = ({ group = null, groupmembers = [], darkMode = false }) => {
           setFriends(groupmembers);
           setSelectedFriends(groupmembers.map(member => member._id));
         } else {
-          const res = await axios.get("http://localhost:5000/api/users/friends", {
+          // const res = await axios.get("http://localhost:5000/api/users/friends", {
+          const res = await axios.get("https://money-split.onrender.com/api/users/friends", {
             headers: { Authorization: token }
           });
           setFriends(res.data);
@@ -34,7 +35,8 @@ const AddExpense = ({ group = null, groupmembers = [], darkMode = false }) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/expense/add-expense",
+        // "http://localhost:5000/api/expense/add-expense",
+        "https://money-split.onrender.com/api/expense/add-expense",
         {
           group,
           description,

@@ -24,7 +24,8 @@ export default function Dashboard() {
 
     const fetchDashboardData = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/group/my-groups", {
+        // const res = await axios.get("http://localhost:5000/api/group/my-groups", {
+        const res = await axios.get("https://money-split.onrender.com/api/group/my-groups", {
           headers: { Authorization: token },
         });
         setGroups(res.data.groups);
@@ -36,7 +37,8 @@ export default function Dashboard() {
 
     const fetchFriends = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/users/friends", {
+        // const res = await axios.get("http://localhost:5000/api/users/friends", {
+        const res = await axios.get("https://money-split.onrender.com/api/users/friends", {
           headers: { Authorization: token },
         });
         setFriends(res.data);
@@ -48,7 +50,8 @@ export default function Dashboard() {
     const fetchExpenses = async () => {
       if (!user._id) return;
       try {
-        const res = await axios.get(`http://localhost:5000/api/expense/${user._id}`, {
+        // const res = await axios.get(`http://localhost:5000/api/expense/${user._id}`, {
+        const res = await axios.get(`https://money-split.onrender.com/api/expense/${user._id}`, {
           headers: { Authorization: token },
         });
         setExpenses({
@@ -73,13 +76,15 @@ export default function Dashboard() {
   const handleAddFriend = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/add-friend",
+        // "http://localhost:5000/api/users/add-friend",
+        "https://money-split.onrender.com/api/users/add-friend",
         { email: emailToAdd },
         { headers: { Authorization: token } }
       );
       alert(res.data.message);
       setEmailToAdd("");
-      const updatedFriends = await axios.get("http://localhost:5000/api/users/friends", {
+      // const updatedFriends = await axios.get("http://localhost:5000/api/users/friends", {
+      const updatedFriends = await axios.get("https://money-split.onrender.com/api/users/friends", {
         headers: { Authorization: token },
       });
       setFriends(updatedFriends.data);
@@ -95,7 +100,8 @@ export default function Dashboard() {
 
     try {
 
-      await axios.delete(`http://localhost:5000/api/group/${id}`,{
+      // await axios.delete(`http://localhost:5000/api/group/${id}`,{
+      await axios.delete(`https://money-split.onrender.com/api/group/${id}`,{
         headers:{Authorization:token}
       });
       alert("Group deleted successfully");

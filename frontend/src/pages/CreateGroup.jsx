@@ -14,7 +14,8 @@ const CreateGroup = () => {
     useEffect(() => {
         const fetchFriends = async () => {
             try{
-                const res=await axios.get('http://localhost:5000/api/users/friends', {
+                // const res=await axios.get('http://localhost:5000/api/users/friends', {
+                const res=await axios.get('https://money-split.onrender.com/api/users/friends', {
                     headers:{
                         Authorization: token
                     }
@@ -31,7 +32,8 @@ const CreateGroup = () => {
     const handlesubmit = async (e) => {
         e.preventDefault();
         try{
-            await axios.post('http://localhost:5000/api/group/create',
+            // await axios.post('http://localhost:5000/api/group/create',
+            await axios.post('https://money-split.onrender.com/api/group/create',
                 {
                     name: groupName,
                     members: selectedMembers

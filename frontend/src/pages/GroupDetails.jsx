@@ -35,10 +35,12 @@ export default function GroupDetails() {
     const fetchGroupData = async () => {
       try {
         const [groupRes, expensesRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/group/${id}`, {
+          // axios.get(`http://localhost:5000/api/group/${id}`, {
+          axios.get(`https://money-split.onrender.com/api/group/${id}`, {
             headers: { Authorization: token },
           }),
-          axios.get(`http://localhost:5000/api/expense/${id}/expenses`, {
+          // axios.get(`http://localhost:5000/api/expense/${id}/expenses`, {
+          axios.get(`https://money-split.onrender.com/api/expense/${id}/expenses`, {
             headers: { Authorization: token },
           }),
         ]);

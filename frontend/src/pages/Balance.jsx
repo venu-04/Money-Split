@@ -35,7 +35,8 @@ export default function Balance({ darkMode = false }) {
   const fetchBalances = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/balance", {
+      // const res = await axios.get("http://localhost:5000/api/balance", {
+      const res = await axios.get("https://money-split.onrender.com/api/balance", {
         headers: { Authorization: token },
       });
 
@@ -70,7 +71,8 @@ export default function Balance({ darkMode = false }) {
     }
     try {
       await axios.post(
-        "http://localhost:5000/api/expense/settle",
+        // "http://localhost:5000/api/expense/settle",
+        "https://money-split.onrender.com/api/expense/settle",
         { to: personId, amount: Math.abs(amount) },
         { headers: { Authorization: token } }
       );
