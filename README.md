@@ -57,14 +57,14 @@ A full-stack web application to manage personal and group expenses, split bills,
 
    **Backend:**
    
-               cd backend
-               npm start
+         cd backend
+         npm start
 
    **Frontend:**
 
-         ```bash
-            cd frontend
-            npm run dev
+       
+         cd frontend
+         npm run dev
          
    
    
